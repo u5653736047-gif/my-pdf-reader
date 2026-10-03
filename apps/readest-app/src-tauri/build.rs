@@ -199,6 +199,14 @@ fn build_windows_thumbnail() {
     let dll_crate_manifest = dll_crate_dir.join("Cargo.toml");
     let profile = env::var("PROFILE").unwrap_or_else(|_| "debug".into());
 
+    // The shell extension is a separate crate under extensions/, and it is not
+    // part of this repository. Build without Explorer thumbnails rather than
+    // fail; nsis/installer-hooks.nsh skips the matching registration.
+    if !dll_crate_manifest.exists() {
+        println!("cargo:warning=extensions/windows-thumbnail is missing, skipping thumbnail provider");
+        return;
+    }
+
     let mut cmd = Command::new(env::var("CARGO").unwrap_or("cargo".into()));
     cmd.arg("build")
         .arg("--package")

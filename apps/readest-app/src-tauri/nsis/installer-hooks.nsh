@@ -52,6 +52,9 @@
 ; NSIS_HOOK_POSTINSTALL - Called after files are installed
 ;------------------------------------------------------------------------------
 !macro NSIS_HOOK_POSTINSTALL
+    ; The provider DLL is a separate crate (extensions/windows-thumbnail) that
+    ; need not be in the checkout, so only register what was actually shipped.
+    IfFileExists "$INSTDIR\readest_thumbnail.dll" 0 readestThumbnailSkipped
     DetailPrint "Registering Readest Thumbnail Provider..."
 
     ; Always do manual registration for reliability
@@ -86,6 +89,7 @@
 
     ; Refresh shell to apply changes - SHCNE_ASSOCCHANGED
     System::Call 'shell32::SHChangeNotify(i 0x08000000, i 0, p 0, p 0)'
+    readestThumbnailSkipped:
 !macroend
 
 ;------------------------------------------------------------------------------
