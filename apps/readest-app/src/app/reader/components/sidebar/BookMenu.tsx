@@ -76,6 +76,10 @@ const BookMenu: React.FC<BookMenuProps> = ({ menuClassName, setIsDropdownOpen })
     eventDispatcher.dispatch('export-annotations', { bookKey: sideBarBookKey });
     setIsDropdownOpen?.(false);
   };
+  const handleExportPdfAnnotations = () => {
+    eventDispatcher.dispatch('export-pdf-annotations', { bookKey: sideBarBookKey });
+    setIsDropdownOpen?.(false);
+  };
   const handleImportAnnotations = () => {
     eventDispatcher.dispatch('import-annotations', { bookKey: sideBarBookKey });
     setIsDropdownOpen?.(false);
@@ -279,6 +283,13 @@ const BookMenu: React.FC<BookMenuProps> = ({ menuClassName, setIsDropdownOpen })
       )}
       <hr aria-hidden='true' className='border-base-200 my-1' />
       <MenuItem label={_('Export Annotations')} onClick={handleExportAnnotations} />
+      {bookData?.book?.format === 'PDF' && (
+        <MenuItem
+          label={_('Save PDF with Annotations')}
+          disabled={annotationsToClear === 0}
+          onClick={handleExportPdfAnnotations}
+        />
+      )}
       <MenuItem label={_('Import Annotations')} onClick={handleImportAnnotations} />
       <MenuItem
         label={_('Clear Annotations')}

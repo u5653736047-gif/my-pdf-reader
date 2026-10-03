@@ -130,6 +130,18 @@ export interface BookDoc {
   getCover(): Promise<Blob | null>;
   // Present on PDF: renders a page to a JPEG whose longer edge is `maxSize` px.
   getPageThumbnail?(index: number, maxSize: number): Promise<Blob | null>;
+  // Present on PDF: the pdf.js document behind it, whose annotation storage
+  // holds the highlights written back into the file.
+  getPDF?(): {
+    getPage(index: number): Promise<{
+      getViewport(params: { scale: number }): {
+        width: number;
+        convertToPdfPoint(x: number, y: number): [number, number];
+      };
+    }>;
+    annotationStorage: { setValue(key: string, value: unknown): void };
+    saveDocument(): Promise<Uint8Array>;
+  };
   // Present on formats that carry a real spine (EPUB); absent for the ones
   // foliate-js gives synthetic per-index CFIs. Mirrors `view.resolveCFI`.
   resolveCFI?(cfi: string): { index: number; anchor?: (doc: Document) => Range | number } | null;

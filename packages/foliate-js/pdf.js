@@ -1011,6 +1011,10 @@ export const makePDF = async file => {
         size: 1000,
     }))
     book.isExternal = uri => /^\w+:/i.test(uri)
+    // Hand back the pdf.js document itself, so the reader can put its own
+    // highlights into the file (see readest-app/pdfWriteBack.ts): pdf.js only
+    // writes annotations that its annotation editor left in this document.
+    book.getPDF = () => pdf
     // TOC hrefs are JSON-encoded destinations (named or explicit); page-list
     // hrefs are JSON-encoded page indices.
     book.resolveHref = async href => {

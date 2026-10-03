@@ -74,6 +74,7 @@ import { transformContent } from '@/services/transformService';
 import {
   buildTTSSentenceHighlight,
   drawAnnotationOverlay,
+  getHighlightColorHex,
   mergeRestyledAnnotation,
   removeBookNoteOverlays,
   removeEmptyAnnotationPlaceholder,
@@ -113,6 +114,7 @@ import {
   convertAnnotationExportToBookNotes,
   parseAnnotationExport,
 } from '@/services/annotation/providers/readest';
+import { addPdfAnnotations } from '@/services/annotation/pdfWriteBack';
 import {
   extractReadEraLibrary,
   findReadEraDocByFileMd5,
@@ -973,11 +975,13 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
 
   useEffect(() => {
     eventDispatcher.on('export-annotations', handleExportMarkdown);
+    eventDispatcher.on('export-pdf-annotations', handleExportPdfAnnotations);
     eventDispatcher.on('clear-annotations', handleClearAnnotations);
     eventDispatcher.on('import-annotations', handleImportAnnotations);
     eventDispatcher.on('create-tts-highlight', handleCreateTTSHighlight);
     return () => {
       eventDispatcher.off('export-annotations', handleExportMarkdown);
+      eventDispatcher.off('export-pdf-annotations', handleExportPdfAnnotations);
       eventDispatcher.off('clear-annotations', handleClearAnnotations);
       eventDispatcher.off('import-annotations', handleImportAnnotations);
       eventDispatcher.off('create-tts-highlight', handleCreateTTSHighlight);
@@ -2289,6 +2293,63 @@ const Annotator: React.FC<{ bookKey: string; contentInsets: Insets; gridInsets?:
     } finally {
       setImportingAnnotations(false);
     }
+  };
+
+  // Write the book's own highlights into the PDF, so the marks survive outside
+  // the reader. A highlight can only be measured from a page that is rendered
+  // right now, hence whatever is on screen is what gets written.
+  const handleExportPdfAnnotations = async (event: CustomEvent) => {
+    const { bookKey: exportBookKey } = event.detail;
+    if (bookKey !== exportBookKey) return;
+
+    const { book, bookDoc } = bookData;
+    if (!book || !bookDoc?.getPDF) return;
+
+    const { booknotes: allNotes = [] } = getConfig(bookKey) ?? {};
+    const notes = allNotes.filter((note) => note.type === 'annotation' && !note.deletedAt);
+    if (notes.length === 0) return;
+
+    const views = getViewsById(bookKey.split('-')[0]!);
+    const written = await addPdfAnnotations(
+      bookDoc,
+      // One book can be open in more than one view (parallel reading), and a
+      // highlight only measures in the view that renders its page.
+      { getContents: () => views.flatMap((view) => view.renderer?.getContents() ?? []) },
+      notes,
+      (color) => getHighlightColorHex(settings, color),
+    );
+    if (written === 0) {
+      eventDispatcher.dispatch('toast', {
+        type: 'warning',
+        message: _('Open an annotated page to save its highlights into the PDF.'),
+        timeout: 2000,
+      });
+      return;
+    }
+
+    const saved = await bookDoc.getPDF().saveDocument();
+    // Save exactly the file: pdf.js returns a view over its own buffer, which
+    // is normally the whole of it, but copy rather than write the slack if not.
+    const { byteOffset, byteLength } = saved;
+    const bytes =
+      byteOffset === 0 && byteLength === saved.buffer.byteLength
+        ? (saved.buffer as ArrayBuffer)
+        : saved.slice().buffer;
+    const savedOk = await appService?.saveFile(
+      `${makeSafeFilename(book.title)}-annotated.pdf`,
+      bytes,
+      {
+        mimeType: 'application/pdf',
+      },
+    );
+
+    eventDispatcher.dispatch('toast', {
+      type: savedOk ? 'info' : 'warning',
+      message: savedOk
+        ? _('Wrote {{count}} highlights into the PDF.', { count: written })
+        : _('Failed to save the PDF.'),
+      timeout: 2000,
+    });
   };
 
   const handleExportMarkdown = async (event: CustomEvent) => {
