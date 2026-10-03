@@ -225,3 +225,124 @@ describe('BookIndexer', () => {
     expect(maxActive).toBeGreaterThan(1);
   });
 });
+
+// A PDF page has no flow content to walk, so its chunks come from the file's
+// own text items instead (see pdfChunker). These tests pin that path through
+// the whole pipeline, against the real paragraph grouping.
+describe('BookIndexer — PDF books', () => {
+  let svc: DatabaseService;
+  let reedy: ReedyDb;
+  let indexer: BookIndexer;
+
+  const PAGE_BOX = { pageX: 0, pageY: 0, pageWidth: 612, pageHeight: 792 };
+
+  /** One pdf.js text item per paragraph of a page. */
+  const item = (str: string, x: number, baseline: number) => ({
+    str,
+    transform: [11, 0, 0, 11, x, baseline],
+    width: str.length * 5,
+    height: 11,
+  });
+
+  /** A PDF book: one section per page, each with its own paragraphs. */
+  const pdfBook = (pages: string[][]) => {
+    const book = fakeBook(pages.map((_, i) => section(`p${i}`, '')));
+    (book as { getPDF?: () => unknown }).getPDF = () => ({
+      getPage: async (index: number) => ({
+        getViewport: () => ({ rawDims: PAGE_BOX }),
+        getTextContent: async () => ({
+          items: pages[index - 1]!.map((text, line) => item(text, 60, 700 - line * 40)),
+        }),
+      }),
+    });
+    return book;
+  };
+
+  const storedChunks = (hash: string) =>
+    svc
+      .select<{ text: string; chapter_title: string | null; section_index: number }>(
+        `SELECT text, chapter_title, section_index FROM reedy_book_chunks
+         WHERE book_hash = '${hash}' ORDER BY position_index`,
+      )
+      .then((rows) => rows);
+
+  beforeEach(async () => {
+    svc = await NodeDatabaseService.open(':memory:', { experimental: ['index_method'] });
+    await migrate(svc, getMigrations('reedy'));
+    reedy = new ReedyDb(svc);
+    indexer = new BookIndexer(reedy);
+  });
+
+  afterEach(async () => {
+    await svc.close();
+  });
+
+  it('chunks each page from its own paragraphs and lands status=indexed', async () => {
+    const book = pdfBook([
+      ['The first paragraph of the first page.', 'The second paragraph, same page.'],
+      ['A different page entirely.'],
+    ]);
+
+    await indexer.indexBook(book, 'bk-pdf', fakeModel());
+
+    const meta = await reedy.getBookMeta('bk-pdf');
+    expect(meta?.indexingStatus).toBe('indexed');
+    expect(meta?.chunkCount).toBe(3);
+    expect(await storedChunks('bk-pdf')).toEqual([
+      {
+        text: 'The first paragraph of the first page.',
+        chapter_title: 'Page 1',
+        section_index: 0,
+      },
+      { text: 'The second paragraph, same page.', chapter_title: 'Page 1', section_index: 0 },
+      { text: 'A different page entirely.', chapter_title: 'Page 2', section_index: 1 },
+    ]);
+  });
+
+  it('drops a page number, which has nothing to retrieve', async () => {
+    const book = pdfBook([['42', 'The text of the page.']]);
+
+    await indexer.indexBook(book, 'bk-pdf-numbers', fakeModel());
+
+    expect((await storedChunks('bk-pdf-numbers')).map(({ text }) => text)).toEqual([
+      'The text of the page.',
+    ]);
+  });
+
+  it('reads the pages through pdf.js, not through their documents', async () => {
+    const book = pdfBook([['Only one page.']]);
+    let createDocumentCalls = 0;
+    for (const section of book.sections) {
+      section.createDocument = () => {
+        createDocumentCalls += 1;
+        return Promise.resolve(new DOMParser().parseFromString('<html></html>', 'text/html'));
+      };
+    }
+
+    await indexer.indexBook(book, 'bk-pdf-nodoc', fakeModel());
+
+    expect(createDocumentCalls).toBe(0);
+    expect((await reedy.getBookMeta('bk-pdf-nodoc'))?.indexingStatus).toBe('indexed');
+  });
+
+  it('skips a page whose text cannot be read, and indexes the rest', async () => {
+    const book = pdfBook([['A readable page.'], ['An unreadable page.']]);
+    const pdf = book.getPDF!() as { getPage: (index: number) => Promise<unknown> };
+    let firstCall = true;
+    (book as { getPDF?: () => unknown }).getPDF = () => ({
+      getPage: async (index: number) => {
+        if (firstCall) {
+          firstCall = false;
+          return pdf.getPage(index);
+        }
+        throw new Error('page data is missing');
+      },
+    });
+
+    await indexer.indexBook(book, 'bk-pdf-bad-page', fakeModel());
+
+    expect((await storedChunks('bk-pdf-bad-page')).map(({ text }) => text)).toEqual([
+      'A readable page.',
+    ]);
+  });
+});

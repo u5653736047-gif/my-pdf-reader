@@ -1,8 +1,10 @@
 import type { BookDoc } from '@/libs/document';
+import { clusterPdfParagraphs } from '@/services/translation/pdfLayout';
 import { ReedyDb } from '../db/ReedyDb';
 import type { ChunkRow, EmbeddingRow } from '../db/types';
 import type { EmbeddingModel } from '../models/EmbeddingModel';
 import { chunkSection, type ChunkOptions } from './CfiChunker';
+import { chunkPdfSection } from './pdfChunker';
 
 const DEFAULT_BATCH_SIZE = 16;
 
@@ -120,8 +122,17 @@ export class BookIndexer {
   ): Promise<ChunkRow[]> {
     const all: ChunkRow[] = [];
     const sections = bookDoc.sections;
+    // A PDF page's text is positioned, so its paragraphs come from the file's
+    // own text items (see pdfChunker) rather than from a document CFIs can
+    // address. Everything else is reflowable and chunks from its DOM.
+    const pdf = bookDoc.getPDF?.();
     for (let i = 0; i < sections.length; i++) {
       options.onProgress?.({ phase: 'chunking', current: i, total: sections.length });
+      if (pdf) {
+        const pageChunks = await this.chunkPdfPage(pdf, i, bookHash, options, all.length);
+        all.push(...pageChunks);
+        continue;
+      }
       const section = sections[i]!;
       let doc: Document;
       try {
@@ -140,6 +151,31 @@ export class BookIndexer {
     }
     options.onProgress?.({ phase: 'chunking', current: sections.length, total: sections.length });
     return all;
+  }
+
+  private async chunkPdfPage(
+    pdf: NonNullable<ReturnType<NonNullable<BookDoc['getPDF']>>>,
+    pageIndex: number,
+    bookHash: string,
+    options: IndexBookOptions,
+    positionOffset: number,
+  ): Promise<ChunkRow[]> {
+    try {
+      const page = await pdf.getPage(pageIndex + 1);
+      const { items } = await page.getTextContent();
+      const paragraphs = clusterPdfParagraphs(items, page.getViewport({ scale: 1 }).rawDims);
+      return chunkPdfSection(paragraphs, {
+        sectionIndex: pageIndex,
+        chapterTitle: options.getChapterTitle?.(pageIndex) ?? `Page ${pageIndex + 1}`,
+        bookHash,
+        positionOffset,
+      });
+    } catch (err) {
+      // A page the pdf.js worker cannot read is skipped, exactly as an EPUB
+      // section whose document fails to build is.
+      console.warn('[Reedy] PDF page read failed', { pageIndex, err });
+      return [];
+    }
   }
 
   private async embedAndStore(

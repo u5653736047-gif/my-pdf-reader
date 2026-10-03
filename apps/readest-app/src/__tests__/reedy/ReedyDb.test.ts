@@ -12,7 +12,9 @@ function chunk(id: string, bookHash: string, pos: number, text: string): ChunkRo
   return {
     id,
     bookHash,
-    sectionIndex: 0,
+    // One chunk per page: the page a chunk came from is what the reader's
+    // position is compared against (see ReedyDb.hybridSearch).
+    sectionIndex: pos,
     chapterTitle: 'Ch1',
     startCfi: `/6/4!/4/${pos * 2 + 2},/1:0,/1:10`,
     endCfi: `/6/4!/4/${pos * 2 + 2},/1:10,/1:20`,
@@ -291,7 +293,7 @@ describe('ReedyDb', () => {
       expect(res[0]!.id).toBe('a4');
     });
 
-    it('drops chunks with position_index > spoilerBoundPosition', async () => {
+    it('drops chunks from pages past the reader’s position', async () => {
       const res = await reedy.hybridSearch({
         bookHash: 'bookA',
         queryText: 'apple banana',
@@ -299,7 +301,8 @@ describe('ReedyDb', () => {
         k: 5,
         spoilerBoundPosition: 1,
       });
-      for (const r of res) expect(r.positionIndex).toBeLessThanOrEqual(1);
+      // Bounded by page, not by chunk ordinal: a page of prose is many chunks.
+      for (const r of res) expect(r.sectionIndex).toBeLessThanOrEqual(1);
     });
   });
 });

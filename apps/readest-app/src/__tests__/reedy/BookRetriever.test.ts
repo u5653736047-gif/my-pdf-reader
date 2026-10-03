@@ -29,7 +29,9 @@ function chunk(id: string, bookHash: string, pos: number, text: string): ChunkRo
   return {
     id,
     bookHash,
-    sectionIndex: 0,
+    // One chunk per page: the page a chunk came from is what the reader's
+    // position is compared against (see ReedyDb.hybridSearch).
+    sectionIndex: pos,
     chapterTitle: 'Ch1',
     startCfi: `epubcfi(/6/2!/4/${pos * 2 + 2},/1:0,/1:10)`,
     endCfi: `epubcfi(/6/2!/4/${pos * 2 + 2},/1:10,/1:20)`,
@@ -257,7 +259,7 @@ describe('BookRetriever', () => {
       expect(res.passages[0]!.id).toBe('a2');
     });
 
-    it('drops passages above spoilerBoundPosition', async () => {
+    it('drops passages from pages past the reader’s position', async () => {
       const res = await retriever.search({
         bookHash: 'bookA',
         query: 'final',
@@ -267,7 +269,7 @@ describe('BookRetriever', () => {
           embedFn: async (texts) => texts.map(() => unitVec([0, 0, 0, 1])),
         }),
       });
-      for (const p of res.passages) expect(p.positionIndex).toBeLessThanOrEqual(1);
+      for (const p of res.passages) expect(p.sectionIndex).toBeLessThanOrEqual(1);
     });
 
     it('falls back to FTS-only with status=degraded when the embedding call times out', async () => {

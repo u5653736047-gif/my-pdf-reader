@@ -490,7 +490,12 @@ export class ReedyDb {
     const { bookHash, queryText, queryEmbedding, k, spoilerBoundPosition } = args;
     if (k <= 0) return [];
 
-    const spoilerClause = spoilerBoundPosition !== undefined ? ' AND c.position_index <= ?' : '';
+    // The bound is a page (the reader's position), so it has to be compared
+    // against the page each chunk came from. `position_index` is a chunk
+    // ordinal, monotonic across the book, and a page number measured against it
+    // lets the reader see only the first few chunks of the book — which, on a
+    // PDF, is the first two pages.
+    const spoilerClause = spoilerBoundPosition !== undefined ? ' AND c.section_index <= ?' : '';
     const spoilerParam: unknown[] =
       spoilerBoundPosition !== undefined ? [spoilerBoundPosition] : [];
 
