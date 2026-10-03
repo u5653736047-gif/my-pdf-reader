@@ -31,6 +31,15 @@ import CustomDictionaries from './CustomDictionaries';
 import WordLensPanel from './WordLensPanel';
 import { PiTranslate } from 'react-icons/pi';
 
+// The interface language list is the set the app actually ships translations
+// for (`public/locales`). The wider TRANSLATED_LANGS stays untouched: it is
+// also the base of the translator's language lists.
+const UI_LANGS = {
+  en: TRANSLATED_LANGS.en,
+  'zh-CN': TRANSLATED_LANGS['zh-CN'],
+  'zh-TW': TRANSLATED_LANGS['zh-TW'],
+};
+
 const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
   const { token } = useAuth();
@@ -115,10 +124,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const uiLanguage = viewSettings.uiLanguage;
     return {
       value: uiLanguage,
-      label:
-        uiLanguage === ''
-          ? _('Auto')
-          : TRANSLATED_LANGS[uiLanguage as keyof typeof TRANSLATED_LANGS],
+      label: uiLanguage === '' ? _('Auto') : UI_LANGS[uiLanguage as keyof typeof UI_LANGS],
     };
   };
 
@@ -313,7 +319,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
             value={getCurrentUILangOption().value}
             onChange={handleSelectUILang}
             ariaLabel={_('Language')}
-            options={getLangOptions(TRANSLATED_LANGS)}
+            options={getLangOptions(UI_LANGS)}
           />
         </SettingsRow>
       </BoxedList>

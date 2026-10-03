@@ -20,13 +20,8 @@ const initI18n = async () => {
     .init({
       supportedLngs: SUPPORTED_LNGS,
       fallbackLng: {
+        // zh-HK has no translation of its own; Traditional Chinese is closest.
         'zh-HK': ['zh-TW', 'en'],
-        'pt-BR': ['pt', 'en'],
-        kk: ['ru', 'en'],
-        ky: ['ru', 'en'],
-        tk: ['ru', 'en'],
-        ug: ['ru', 'en'],
-        tt: ['ru', 'en'],
         default: ['en'],
       },
       ns: ['translation'],
