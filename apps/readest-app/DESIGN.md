@@ -833,6 +833,28 @@ Verification checklist before shipping a new UI:
 - [ ] Text is fully opaque (no `text-base-content/60` content; eink can't render the
       reduced opacity well).
 
+#### Overlays inside a book page's frame (PDF)
+
+A PDF page is a same-origin iframe the renderer fills with a canvas, a text layer and
+an annotation layer. Anything drawn into it (a translation, a marker) is not React, so
+it cannot use the class vocabulary in this document. The rules it follows instead:
+
+| Concern            | Rule                                                            | Why                                                                                     |
+| ------------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Position           | Percentages of the unrotated page box                           | The page's own text layer uses the same convention, so a box stays aligned at any zoom  |
+| Text size          | `calc(var(--total-scale-factor) * <lineHeight>px)`              | The renderer sets that property on the frame's document at every zoom                   |
+| Interaction        | `pointer-events: none`                                          | The reader's selection, annotation and link hit-testing must still reach the page       |
+| Stacking           | Above the text and annotation layers (`z-index: 0`)             | Otherwise the page's own canvas covers the overlay                                       |
+| Color              | Passed in from the theme (`getPDFPageColors`)                   | The frame does not inherit the app's CSS variables                                       |
+| PDF not themed     | White background, near-black foreground                         | An unthemed page keeps its own white paper, so the overlay must match it                |
+| E-ink              | 1px `base-content` border, no background tint                   | Principle 2.6: no background tint to lean on, so the box needs a hairline               |
+| Direction          | `dir="auto"`                                                    | The source paragraph's direction is not the translation's (Arabic, Hebrew)              |
+| Coverage           | Opaque, sized to the source paragraph's own box                 | It stands in for that text; a translation taller than it simply runs over the next one  |
+
+A translation replaces the source text rather than sitting beside it: the page cannot
+reflow, so there is nowhere to put a second copy. That is why "Show source text" is an
+EPUB-only setting.
+
 #### What's NOT compatible with e-ink
 
 - Drop shadows for hierarchy (use borders).
