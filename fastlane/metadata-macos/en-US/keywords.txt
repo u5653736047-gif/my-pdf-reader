@@ -1,1 +1,0 @@
-epub,pdf,mobi,azw3,fb2,cbz,books,library,calibre,opds,koreader,annotate,translate,dictionary
