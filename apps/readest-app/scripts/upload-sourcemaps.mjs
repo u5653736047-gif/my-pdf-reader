@@ -22,7 +22,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const appDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staticDir = path.join(appDir, 'out', '_next', 'static');
@@ -126,4 +126,13 @@ const main = () => {
   console.log(`Sentry: stripped ${removed} .js.map file(s) from the app bundle.`);
 };
 
-if (process.argv[1] && import.meta.url === `file://${process.argv[1]}`) main();
+// Run when invoked directly. `pathToFileURL` rather than a string template: on
+// Windows `process.argv[1]` carries backslashes and a bare drive letter, so
+// `file://${argv1}` never matches `import.meta.url` and the maps silently stayed
+// in every bundle built there (124 MiB of them, in the installer).
+const invokedDirectly = () => {
+  const entry = process.argv[1];
+  return !!entry && import.meta.url === pathToFileURL(entry).href;
+};
+
+if (invokedDirectly()) main();
