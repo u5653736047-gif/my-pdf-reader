@@ -18,6 +18,7 @@ import {
 import {
   removePdfTranslationLayer,
   renderPdfTranslationLayer,
+  setPdfTranslationLayerVisible,
   type PdfTranslationBox,
   type PdfTranslationColors,
 } from '@/services/translation/pdfTranslationLayer';
@@ -184,6 +185,11 @@ export const usePdfTranslation = (bookKey: string, view: FoliateView | null) => 
   const translateFrame = useCallback(
     async (pdf: PdfDocumentLike, doc: Document, pageIndex: number) => {
       frames.current.set(pageIndex, doc);
+      // Selecting the text a translation covers is blind: the selection's
+      // highlight is painted underneath the overlay, and annotating is the
+      // reader's main job. So the layer steps aside while there is a selection.
+      const stepAside = () => setPdfTranslationLayerVisible(doc, !doc.getSelection?.()?.toString());
+      doc.addEventListener('selectionchange', stepAside);
       const page = await loadPage(pdf, pageIndex);
       if (!page) return;
       paintPage(pageIndex);

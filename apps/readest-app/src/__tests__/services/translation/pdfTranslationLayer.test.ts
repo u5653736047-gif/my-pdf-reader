@@ -10,6 +10,7 @@ import {
   PdfTranslationColors,
   removePdfTranslationLayer,
   renderPdfTranslationLayer,
+  setPdfTranslationLayerVisible,
 } from '@/services/translation/pdfTranslationLayer';
 
 const COLORS: PdfTranslationColors = {
@@ -101,6 +102,35 @@ describe('renderPdfTranslationLayer', () => {
     const doc = frame();
     renderPdfTranslationLayer(doc, [box()], COLORS);
     removePdfTranslationLayer(doc);
+    expect(layerOf(doc)).toBeNull();
+  });
+});
+
+describe('setPdfTranslationLayerVisible', () => {
+  it('steps aside while the reader selects the text it covers', () => {
+    const doc = frame();
+    renderPdfTranslationLayer(doc, [box()], COLORS);
+    const layer = layerOf(doc)!;
+    expect(layer.style.visibility).toBe('');
+
+    setPdfTranslationLayerVisible(doc, false);
+    expect(layer.style.visibility).toBe('hidden');
+
+    // The selection is gone, so the translation is back.
+    setPdfTranslationLayerVisible(doc, true);
+    expect(layer.style.visibility).toBe('');
+  });
+
+  it('keeps what it painted, so coming back does not re-translate', () => {
+    const doc = frame();
+    renderPdfTranslationLayer(doc, [box()], COLORS);
+    setPdfTranslationLayerVisible(doc, false);
+    expect(boxesOf(doc)).toHaveLength(1);
+  });
+
+  it('does nothing on a page it never painted', () => {
+    const doc = frame();
+    setPdfTranslationLayerVisible(doc, false);
     expect(layerOf(doc)).toBeNull();
   });
 });

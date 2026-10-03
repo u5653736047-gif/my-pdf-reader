@@ -89,6 +89,17 @@ export const renderPdfTranslationLayer = (
   layer.replaceChildren(...boxes.map((box) => createBox(box, colors)));
 };
 
+/**
+ * Steps the layer out of the way while the reader is working on the source
+ * text. Selecting text that a translation covers is blind — the selection
+ * highlight is painted underneath the overlay — and annotating is the reader's
+ * main job, so the overlay gives way for as long as there is a selection.
+ */
+export const setPdfTranslationLayerVisible = (doc: Document, visible: boolean) => {
+  const layer = doc.querySelector<HTMLElement>(`.${LAYER_CLASS}`);
+  if (layer) layer.style.visibility = visible ? '' : 'hidden';
+};
+
 export const removePdfTranslationLayer = (doc: Document) => {
   doc.querySelector(`.${LAYER_CLASS}`)?.remove();
 };

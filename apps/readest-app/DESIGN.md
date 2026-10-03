@@ -850,6 +850,7 @@ it cannot use the class vocabulary in this document. The rules it follows instea
 | E-ink              | 1px `base-content` border, no background tint                   | Principle 2.6: no background tint to lean on, so the box needs a hairline               |
 | Direction          | `dir="auto"`                                                    | The source paragraph's direction is not the translation's (Arabic, Hebrew)              |
 | Coverage           | Opaque, sized to the source paragraph's own box                 | It stands in for that text; a translation taller than it simply runs over the next one  |
+| While selecting    | `visibility: hidden` for as long as the page has a selection    | The selection's highlight is painted underneath, so selecting would be blind            |
 
 A translation replaces the source text rather than sitting beside it: the page cannot
 reflow, so there is nowhere to put a second copy. That is why "Show source text" is an

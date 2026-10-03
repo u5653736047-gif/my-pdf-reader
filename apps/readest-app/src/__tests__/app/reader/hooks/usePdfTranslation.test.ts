@@ -106,6 +106,15 @@ const settings = (over: Partial<ViewSettings> = {}): ViewSettings =>
   }) as ViewSettings;
 
 const painted = (doc: Document) => [...doc.querySelectorAll<HTMLElement>('.pdf-translation')];
+const layerOf = (doc: Document) => doc.querySelector<HTMLElement>('.pdf-translation-layer');
+
+/** The reader's selection inside a page's frame, as foliate reads it. */
+const selectIn = (doc: Document, text: string) => {
+  Object.defineProperty(doc, 'getSelection', {
+    configurable: true,
+    value: () => ({ toString: () => text }),
+  });
+};
 
 beforeEach(() => {
   translate.mockReset();
@@ -226,5 +235,25 @@ describe('usePdfTranslation', () => {
     await new Promise((resolve) => setTimeout(resolve, 250));
     expect(translate).not.toHaveBeenCalled();
     expect(painted(doc)).toHaveLength(0);
+  });
+
+  it('steps aside while the reader selects the text it covers', async () => {
+    const doc = frameDoc();
+    renderHook(() => usePdfTranslation('book', makeView([{ doc, index: 0 }])));
+    await waitFor(() => expect(painted(doc).length).toBe(1));
+    expect(layerOf(doc)!.style.visibility).toBe('');
+
+    // Annotating starts by selecting text — and the highlight the reader needs
+    // to see while dragging is painted underneath the overlay.
+    selectIn(doc, 'The first line of a paragraph.');
+    doc.dispatchEvent(new Event('selectionchange'));
+    await waitFor(() => expect(layerOf(doc)!.style.visibility).toBe('hidden'));
+
+    // The note is made, the selection collapses, the translation is back.
+    selectIn(doc, '');
+    doc.dispatchEvent(new Event('selectionchange'));
+    await waitFor(() => expect(layerOf(doc)!.style.visibility).toBe(''));
+    // Stepping aside costs no translation: the boxes are still there.
+    expect(painted(doc)).toHaveLength(1);
   });
 });
