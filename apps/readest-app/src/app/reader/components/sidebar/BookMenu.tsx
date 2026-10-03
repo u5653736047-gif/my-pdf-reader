@@ -56,6 +56,8 @@ const BookMenu: React.FC<BookMenuProps> = ({ menuClassName, setIsDropdownOpen })
     return cfg.booknotes.filter((n) => n.type === 'annotation' && !n.deletedAt).length;
   }, [sideBarBookKey, getConfig]);
 
+  const hasAnnotations = annotationsToClear > 0;
+
   const handleParallelView = (id: string) => {
     openParallelView(id);
     setIsDropdownOpen?.(false);
@@ -285,8 +287,8 @@ const BookMenu: React.FC<BookMenuProps> = ({ menuClassName, setIsDropdownOpen })
       <MenuItem label={_('Export Annotations')} onClick={handleExportAnnotations} />
       {bookData?.book?.format === 'PDF' && (
         <MenuItem
-          label={_('Save PDF with Annotations')}
-          disabled={annotationsToClear === 0}
+          label={_('Save PDF with Highlights')}
+          disabled={!hasAnnotations}
           onClick={handleExportPdfAnnotations}
         />
       )}

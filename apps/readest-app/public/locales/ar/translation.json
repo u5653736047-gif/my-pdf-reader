@@ -2775,5 +2775,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "تعذّر ربط القارئ. تحقّق من الرمز أو سجّل الدخول مجددًا على القارئ.",
   "Link Reader": "ربط القارئ",
   "Failed to copy the image": "فشل نسخ الصورة",
-  "Copy Image": "نسخ الصورة"
+  "Copy Image": "نسخ الصورة",
+  "Save PDF with Highlights": "حفظ PDF مع التمييزات",
+  "Open an annotated page to save its highlights into the PDF.": "افتح صفحة تحتوي على تعليقات لحفظ تمييزاتها في PDF.",
+  "Failed to save the PDF.": "فشل حفظ PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "تم كتابة {{count}} تمييز في PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "تم كتابة {{count}} تمييز في PDF."
 }

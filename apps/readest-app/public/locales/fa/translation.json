@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "پیوند دادن کتاب‌خوان ممکن نشد. کد را بررسی کنید یا دوباره روی کتاب‌خوان وارد شوید.",
   "Link Reader": "پیوند دادن کتاب‌خوان",
   "Failed to copy the image": "کپی تصویر ناموفق بود",
-  "Copy Image": "کپی تصویر"
+  "Copy Image": "کپی تصویر",
+  "Save PDF with Highlights": "ذخیره PDF با هایلایت‌ها",
+  "Open an annotated page to save its highlights into the PDF.": "برای ذخیره هایلایت‌ها در PDF، صفحه‌ای با حاشیه‌نویسی باز کنید.",
+  "Failed to save the PDF.": "ذخیره PDF ناموفق بود.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} هایلایت در PDF نوشته شد.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} هایلایت در PDF نوشته شد."
 }

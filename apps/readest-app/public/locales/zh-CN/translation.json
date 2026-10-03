@@ -2455,5 +2455,9 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "无法关联阅读器。请检查代码，或在阅读器上重新登录。",
   "Link Reader": "关联阅读器",
   "Failed to copy the image": "图片复制失败",
-  "Copy Image": "复制图片"
+  "Copy Image": "复制图片",
+  "Save PDF with Highlights": "保存带高亮的 PDF",
+  "Open an annotated page to save its highlights into the PDF.": "打开一个有笔记的页面，即可将其高亮保存到 PDF 中。",
+  "Failed to save the PDF.": "保存 PDF 失败。",
+  "Wrote {{count}} highlights into the PDF._other": "已将 {{count}} 个高亮写入 PDF。"
 }

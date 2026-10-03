@@ -2583,5 +2583,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Impossibile collegare il lettore. Controlla il codice o accedi di nuovo sul lettore.",
   "Link Reader": "Collega lettore",
   "Failed to copy the image": "Impossibile copiare l'immagine",
-  "Copy Image": "Copia immagine"
+  "Copy Image": "Copia immagine",
+  "Save PDF with Highlights": "Salva il PDF con le evidenziazioni",
+  "Open an annotated page to save its highlights into the PDF.": "Apri una pagina annotata per salvare le sue evidenziazioni nel PDF.",
+  "Failed to save the PDF.": "Impossibile salvare il PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "Scritta {{count}} evidenziazione nel PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "Scritte {{count}} evidenziazioni nel PDF."
 }

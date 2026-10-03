@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "ரீடரை இணைக்க முடியவில்லை. குறியீட்டைச் சரிபார்க்கவும், அல்லது ரீடரில் மீண்டும் உள்நுழையவும்.",
   "Link Reader": "ரீடரை இணை",
   "Failed to copy the image": "படத்தை நகலெடுக்க முடியவில்லை",
-  "Copy Image": "படத்தை நகலெடு"
+  "Copy Image": "படத்தை நகலெடு",
+  "Save PDF with Highlights": "சிறப்பம்சங்களுடன் PDF-ஐ சேமிக்கவும்",
+  "Open an annotated page to save its highlights into the PDF.": "அதன் முத்திரைகளை PDF-ல் சேமிக்க, குறிப்புகள் உள்ள ஒரு பக்கத்தைத் திறக்கவும்.",
+  "Failed to save the PDF.": "PDF-ஐ சேமிக்க முடியவில்லை.",
+  "Wrote {{count}} highlights into the PDF._one": "PDF-ல் {{count}} முத்திரை எழுதப்பட்டது.",
+  "Wrote {{count}} highlights into the PDF._other": "PDF-ல் {{count}} முத்திரைகள் எழுதப்பட்டன."
 }

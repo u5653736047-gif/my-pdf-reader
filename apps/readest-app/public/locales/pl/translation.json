@@ -2647,5 +2647,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Nie udało się połączyć czytnika. Sprawdź kod lub zaloguj się ponownie na czytniku.",
   "Link Reader": "Połącz czytnik",
   "Failed to copy the image": "Nie udało się skopiować obrazu",
-  "Copy Image": "Kopiuj obraz"
+  "Copy Image": "Kopiuj obraz",
+  "Save PDF with Highlights": "Zapisz PDF z wyróżnieniami",
+  "Open an annotated page to save its highlights into the PDF.": "Otwórz stronę z adnotacjami, aby zapisać jej zaznaczenia w pliku PDF.",
+  "Failed to save the PDF.": "Nie udało się zapisać pliku PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "Zapisano {{count}} zaznaczenie w pliku PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "Zapisano {{count}} zaznaczeń w pliku PDF."
 }

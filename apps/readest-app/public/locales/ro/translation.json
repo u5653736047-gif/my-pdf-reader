@@ -2583,5 +2583,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Cititorul nu a putut fi conectat. Verificați codul sau autentificați-vă din nou pe cititor.",
   "Link Reader": "Conectați cititorul",
   "Failed to copy the image": "Copierea imaginii a eșuat",
-  "Copy Image": "Copiază imaginea"
+  "Copy Image": "Copiază imaginea",
+  "Save PDF with Highlights": "Salvează PDF cu evidențieri",
+  "Open an annotated page to save its highlights into the PDF.": "Deschide o pagină adnotată pentru a-i salva evidențierile în PDF.",
+  "Failed to save the PDF.": "Salvarea PDF-ului a eșuat.",
+  "Wrote {{count}} highlights into the PDF._one": "S-a scris {{count}} evidențiere în PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "S-au scris {{count}} evidențieri în PDF."
 }

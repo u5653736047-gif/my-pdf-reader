@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Kan de e-reader niet koppelen. Controleer de code of log opnieuw in op de e-reader.",
   "Link Reader": "E-reader koppelen",
   "Failed to copy the image": "Kan de afbeelding niet kopiëren",
-  "Copy Image": "Afbeelding kopiëren"
+  "Copy Image": "Afbeelding kopiëren",
+  "Save PDF with Highlights": "PDF met markeringen opslaan",
+  "Open an annotated page to save its highlights into the PDF.": "Open een pagina met annotaties om de markeringen in de PDF op te slaan.",
+  "Failed to save the PDF.": "Kan PDF niet opslaan.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} markering in de PDF geschreven.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} markeringen in de PDF geschreven."
 }

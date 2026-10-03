@@ -2583,5 +2583,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Impossible d'associer la liseuse. Vérifiez le code ou reconnectez-vous sur la liseuse.",
   "Link Reader": "Associer la liseuse",
   "Failed to copy the image": "Échec de la copie de l'image",
-  "Copy Image": "Copier l'image"
+  "Copy Image": "Copier l'image",
+  "Save PDF with Highlights": "Enregistrer le PDF avec les surlignages",
+  "Open an annotated page to save its highlights into the PDF.": "Ouvrez une page annotée pour enregistrer ses surlignages dans le PDF.",
+  "Failed to save the PDF.": "Échec de l'enregistrement du PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} surlignage écrit dans le PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} surlignages écrits dans le PDF."
 }

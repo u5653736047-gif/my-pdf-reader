@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Okuyucu bağlanamadı. Kodu kontrol edin veya okuyucuda yeniden oturum açın.",
   "Link Reader": "Okuyucuyu bağla",
   "Failed to copy the image": "Görsel kopyalanamadı",
-  "Copy Image": "Görseli Kopyala"
+  "Copy Image": "Görseli Kopyala",
+  "Save PDF with Highlights": "Vurgularla PDF'yi Kaydet",
+  "Open an annotated page to save its highlights into the PDF.": "Vurgularını PDF'ye kaydetmek için açıklamalı bir sayfa açın.",
+  "Failed to save the PDF.": "PDF kaydedilemedi.",
+  "Wrote {{count}} highlights into the PDF._one": "PDF'ye {{count}} vurgu yazıldı.",
+  "Wrote {{count}} highlights into the PDF._other": "PDF'ye {{count}} vurgu yazıldı."
 }

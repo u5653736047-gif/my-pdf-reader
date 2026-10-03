@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "রিডার লিঙ্ক করা যায়নি। কোডটি যাচাই করুন, অথবা রিডারে আবার সাইন ইন করুন।",
   "Link Reader": "রিডার লিঙ্ক করুন",
   "Failed to copy the image": "ছবি কপি করা যায়নি",
-  "Copy Image": "ছবি কপি করুন"
+  "Copy Image": "ছবি কপি করুন",
+  "Save PDF with Highlights": "হাইলাইট সহ PDF সংরক্ষণ করুন",
+  "Open an annotated page to save its highlights into the PDF.": "PDF-এ এর হাইলাইট সংরক্ষণ করতে একটি টীকাযুক্ত পৃষ্ঠা খোলুন।",
+  "Failed to save the PDF.": "PDF সংরক্ষণ করতে ব্যর্থ হয়েছে।",
+  "Wrote {{count}} highlights into the PDF._one": "PDF-এ {{count}}টি হাইলাইট লেখা হয়েছে।",
+  "Wrote {{count}} highlights into the PDF._other": "PDF-এ {{count}}টি হাইলাইট লেখা হয়েছে।"
 }

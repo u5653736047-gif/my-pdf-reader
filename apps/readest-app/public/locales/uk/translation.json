@@ -2647,5 +2647,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Не вдалося під'єднати пристрій. Перевірте код або увійдіть на пристрої знову.",
   "Link Reader": "Під'єднати пристрій",
   "Failed to copy the image": "Не вдалося скопіювати зображення",
-  "Copy Image": "Копіювати зображення"
+  "Copy Image": "Копіювати зображення",
+  "Save PDF with Highlights": "Зберегти PDF з виділеннями",
+  "Open an annotated page to save its highlights into the PDF.": "Відкрийте сторінку з анотаціями, щоб зберегти її виділення в PDF.",
+  "Failed to save the PDF.": "Не вдалося зберегти PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "Записано {{count}} виділення в PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "Записано {{count}} виділень в PDF."
 }

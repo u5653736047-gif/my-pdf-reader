@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Nem sikerült összekapcsolni az olvasót. Ellenőrizze a kódot, vagy jelentkezzen be újra az olvasón.",
   "Link Reader": "Olvasó összekapcsolása",
   "Failed to copy the image": "Nem sikerült másolni a képet",
-  "Copy Image": "Kép másolása"
+  "Copy Image": "Kép másolása",
+  "Save PDF with Highlights": "PDF mentése kiemelésekkel",
+  "Open an annotated page to save its highlights into the PDF.": "Nyisson meg egy jegyzetekkel ellátott oldalt, hogy a kiemelései a PDF-be kerüljenek.",
+  "Failed to save the PDF.": "A PDF mentése sikertelen.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} kiemelés a PDF-be került.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} kiemelés a PDF-be került."
 }

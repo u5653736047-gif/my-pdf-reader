@@ -2583,5 +2583,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "לא ניתן לקשר את הקורא. יש לבדוק את הקוד או להתחבר מחדש בקורא.",
   "Link Reader": "קישור הקורא",
   "Failed to copy the image": "העתקת התמונה נכשלה",
-  "Copy Image": "העתקת התמונה"
+  "Copy Image": "העתקת התמונה",
+  "Save PDF with Highlights": "שמור PDF עם ההדגשות",
+  "Open an annotated page to save its highlights into the PDF.": "פתח דף עם הערות כדי לשמור את ההדגשות שלו ב-PDF.",
+  "Failed to save the PDF.": "שמירת ה-PDF נכשלה.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} הדגשה נכתבה ל-PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} הדגשות נכתבו ל-PDF."
 }

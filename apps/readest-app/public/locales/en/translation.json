@@ -123,5 +123,7 @@
   "{{count}} pages left_one": "{{count}} page left",
   "{{count}} pages left_other": "{{count}} pages left",
   "{{time}} and {{count}} pages left_one": "{{time}} and {{count}} page left",
-  "{{time}} and {{count}} pages left_other": "{{time}} and {{count}} pages left"
+  "{{time}} and {{count}} pages left_other": "{{time}} and {{count}} pages left",
+  "Wrote {{count}} highlights into the PDF._one": "Wrote 1 highlight into the PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "Wrote {{count}} highlights into the PDF."
 }

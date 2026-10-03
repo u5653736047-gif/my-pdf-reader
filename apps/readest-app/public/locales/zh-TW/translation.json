@@ -2455,5 +2455,9 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "無法連結閱讀器。請檢查代碼，或在閱讀器上重新登入。",
   "Link Reader": "連結閱讀器",
   "Failed to copy the image": "圖片複製失敗",
-  "Copy Image": "複製圖片"
+  "Copy Image": "複製圖片",
+  "Save PDF with Highlights": "儲存帶標記的 PDF",
+  "Open an annotated page to save its highlights into the PDF.": "開啟一個有筆記的頁面，即可將其標記寫入 PDF。",
+  "Failed to save the PDF.": "儲存 PDF 失敗。",
+  "Wrote {{count}} highlights into the PDF._other": "已將 {{count}} 個標記寫入 PDF。"
 }

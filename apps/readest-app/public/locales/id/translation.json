@@ -2455,5 +2455,9 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Tidak dapat menautkan pembaca. Periksa kode, atau masuk lagi di pembaca.",
   "Link Reader": "Tautkan pembaca",
   "Failed to copy the image": "Gagal menyalin gambar",
-  "Copy Image": "Salin Gambar"
+  "Copy Image": "Salin Gambar",
+  "Save PDF with Highlights": "Simpan PDF dengan Sorotan",
+  "Open an annotated page to save its highlights into the PDF.": "Buka halaman yang memiliki anotasi untuk menyimpan sorotannya ke PDF.",
+  "Failed to save the PDF.": "Gagal menyimpan PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} sorotan ditulis ke PDF."
 }

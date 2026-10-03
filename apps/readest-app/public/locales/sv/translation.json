@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Det gick inte att länka läsplattan. Kontrollera koden eller logga in igen på läsplattan.",
   "Link Reader": "Länka läsplatta",
   "Failed to copy the image": "Det gick inte att kopiera bilden",
-  "Copy Image": "Kopiera bild"
+  "Copy Image": "Kopiera bild",
+  "Save PDF with Highlights": "Spara PDF med markeringar",
+  "Open an annotated page to save its highlights into the PDF.": "Öppna en sida med anteckningar för att spara dess markeringar i PDF-filen.",
+  "Failed to save the PDF.": "Kunde inte spara PDF-filen.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} markering skrevs i PDF-filen.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} markeringar skrevs i PDF-filen."
 }

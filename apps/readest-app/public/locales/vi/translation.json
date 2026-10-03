@@ -2455,5 +2455,9 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Không thể liên kết máy đọc. Hãy kiểm tra mã hoặc đăng nhập lại trên máy đọc.",
   "Link Reader": "Liên kết máy đọc",
   "Failed to copy the image": "Không thể sao chép hình ảnh",
-  "Copy Image": "Sao chép hình ảnh"
+  "Copy Image": "Sao chép hình ảnh",
+  "Save PDF with Highlights": "Lưu PDF kèm các phần đánh dấu",
+  "Open an annotated page to save its highlights into the PDF.": "Mở một trang có chú thích để lưu các đánh dấu của trang đó vào PDF.",
+  "Failed to save the PDF.": "Không thể lưu PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "Đã ghi {{count}} đánh dấu vào PDF."
 }

@@ -2647,5 +2647,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Bralnika ni bilo mogoče povezati. Preverite kodo ali se znova prijavite na bralniku.",
   "Link Reader": "Poveži bralnik",
   "Failed to copy the image": "Slike ni bilo mogoče kopirati",
-  "Copy Image": "Kopiraj sliko"
+  "Copy Image": "Kopiraj sliko",
+  "Save PDF with Highlights": "Shrani PDF z označbami",
+  "Open an annotated page to save its highlights into the PDF.": "Odprite stran z opombami, da shranite njene označbe v PDF.",
+  "Failed to save the PDF.": "PDF-ja ni bilo mogoče shraniti.",
+  "Wrote {{count}} highlights into the PDF._one": "V PDF je bila zapisana {{count}} označba.",
+  "Wrote {{count}} highlights into the PDF._other": "V PDF je bilo zapisanih {{count}} označb."
 }

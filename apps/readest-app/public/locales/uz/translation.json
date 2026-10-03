@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Qurilmani ulab bo‘lmadi. Kodni tekshiring yoki qurilmada qayta tizimga kiring.",
   "Link Reader": "Qurilmani ulash",
   "Failed to copy the image": "Rasmni nusxalab bo'lmadi",
-  "Copy Image": "Rasmni nusxalash"
+  "Copy Image": "Rasmni nusxalash",
+  "Save PDF with Highlights": "Belgilashlar bilan PDF-ni saqlash",
+  "Open an annotated page to save its highlights into the PDF.": "Belgilashlarni PDF-ga saqlash uchun izohli sahifani oching.",
+  "Failed to save the PDF.": "PDF-ni saqlash boʻlmadi.",
+  "Wrote {{count}} highlights into the PDF._one": "PDF-ga {{count}} belgilash yozildi.",
+  "Wrote {{count}} highlights into the PDF._other": "PDF-ga {{count}} belgilash yozildi."
 }

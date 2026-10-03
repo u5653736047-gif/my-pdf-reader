@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Der Reader konnte nicht verknüpft werden. Prüfen Sie den Code oder melden Sie sich auf dem Reader erneut an.",
   "Link Reader": "Reader verknüpfen",
   "Failed to copy the image": "Bild konnte nicht kopiert werden",
-  "Copy Image": "Bild kopieren"
+  "Copy Image": "Bild kopieren",
+  "Save PDF with Highlights": "PDF mit Markierungen speichern",
+  "Open an annotated page to save its highlights into the PDF.": "Öffnen Sie eine Seite mit Anmerkungen, um ihre Hervorhebungen in das PDF zu speichern.",
+  "Failed to save the PDF.": "PDF konnte nicht gespeichert werden.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} Hervorhebung in das PDF geschrieben.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} Hervorhebungen in das PDF geschrieben."
 }

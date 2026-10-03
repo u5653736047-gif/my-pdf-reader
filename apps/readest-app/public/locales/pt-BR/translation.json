@@ -2583,5 +2583,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Não foi possível vincular o leitor. Verifique o código ou entre novamente no leitor.",
   "Link Reader": "Vincular leitor",
   "Failed to copy the image": "Falha ao copiar a imagem",
-  "Copy Image": "Copiar imagem"
+  "Copy Image": "Copiar imagem",
+  "Save PDF with Highlights": "Salvar PDF com destaques",
+  "Open an annotated page to save its highlights into the PDF.": "Abra uma página com anotações para salvar os destaques dela no PDF.",
+  "Failed to save the PDF.": "Não foi possível salvar o PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "{{count}} destaque foi escrito no PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "{{count}} destaques foram escritos no PDF."
 }

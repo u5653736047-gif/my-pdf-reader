@@ -2519,5 +2519,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Δεν ήταν δυνατή η σύνδεση της συσκευής ανάγνωσης. Ελέγξτε τον κωδικό ή συνδεθείτε ξανά στη συσκευή ανάγνωσης.",
   "Link Reader": "Σύνδεση συσκευής",
   "Failed to copy the image": "Αποτυχία αντιγραφής της εικόνας",
-  "Copy Image": "Αντιγραφή εικόνας"
+  "Copy Image": "Αντιγραφή εικόνας",
+  "Save PDF with Highlights": "Αποθήκευση PDF με επισημάνσεις",
+  "Open an annotated page to save its highlights into the PDF.": "Ανοίξτε μια σελίδα με σχολιασμούς για να αποθηκεύσετε τις επισημάνσεις της στο PDF.",
+  "Failed to save the PDF.": "Αποτυχία αποθήκευσης του PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "Γράφτηκε {{count}} επισήμανση στο PDF.",
+  "Wrote {{count}} highlights into the PDF._other": "Γράφτηκαν {{count}} επισημάνσεις στο PDF."
 }

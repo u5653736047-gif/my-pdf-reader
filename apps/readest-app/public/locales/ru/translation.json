@@ -2647,5 +2647,10 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "Не удалось подключить устройство. Проверьте код или войдите на устройстве заново.",
   "Link Reader": "Подключить устройство",
   "Failed to copy the image": "Не удалось скопировать изображение",
-  "Copy Image": "Копировать изображение"
+  "Copy Image": "Копировать изображение",
+  "Save PDF with Highlights": "Сохранить PDF с выделениями",
+  "Open an annotated page to save its highlights into the PDF.": "Откройте страницу с аннотациями, чтобы сохранить её выделения в PDF.",
+  "Failed to save the PDF.": "Не удалось сохранить PDF.",
+  "Wrote {{count}} highlights into the PDF._one": "В PDF записано {{count}} выделение.",
+  "Wrote {{count}} highlights into the PDF._other": "В PDF записано {{count}} выделений."
 }

@@ -2455,5 +2455,9 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "ไม่สามารถเชื่อมโยงเครื่องอ่านได้ ตรวจสอบรหัส หรือลงชื่อเข้าใช้บนเครื่องอ่านอีกครั้ง",
   "Link Reader": "เชื่อมโยงเครื่องอ่าน",
   "Failed to copy the image": "ไม่สามารถคัดลอกรูปภาพได้",
-  "Copy Image": "คัดลอกรูปภาพ"
+  "Copy Image": "คัดลอกรูปภาพ",
+  "Save PDF with Highlights": "บันทึก PDF พร้อมไฮไลต์",
+  "Open an annotated page to save its highlights into the PDF.": "เปิดหน้าที่มีคำอธิบายประกอบเพื่อบันทึกไฮไลต์ลงใน PDF",
+  "Failed to save the PDF.": "บันทึก PDF ไม่สำเร็จ",
+  "Wrote {{count}} highlights into the PDF._other": "เขียนไฮไลต์ {{count}} รายการลงใน PDF แล้ว"
 }

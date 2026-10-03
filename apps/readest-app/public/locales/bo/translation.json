@@ -2455,5 +2455,9 @@
   "Could not link the reader. Check the code, or sign in again on the reader.": "ཀློག་ཆས་མཐུད་མ་ཐུབ། ཨང་རྟགས་ཞིབ་བཤེར་གནང་བའམ། ཀློག་ཆས་སྟེང་ཡང་བསྐྱར་ནང་འཛུལ་གནང་རོགས།",
   "Link Reader": "ཀློག་ཆས་མཐུད་པ།",
   "Failed to copy the image": "པར་རིས་འདྲ་བཤུས་བྱས་མ་ཐུབ",
-  "Copy Image": "པར་རིས་འདྲ་བཤུས།"
+  "Copy Image": "པར་རིས་འདྲ་བཤུས།",
+  "Save PDF with Highlights": "འོག་ཐིག་དང་བཅས་པའི་PDF ཉར་ཚགས།",
+  "Open an annotated page to save its highlights into the PDF.": "མཆན་འགྲེལ་ཡོད་པའི་ཤོག་ངོས་ཁ་ཕྱེས་ནས་དེའི་འོག་ཐིག་PDF ནང་དུ་ཉར།",
+  "Failed to save the PDF.": "PDF ཉར་མ་ཐུབ།",
+  "Wrote {{count}} highlights into the PDF._other": "འོག་ཐིག་ {{count}} PDF ནང་དུ་བྲིས།"
 }
