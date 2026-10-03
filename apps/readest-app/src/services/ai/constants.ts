@@ -19,6 +19,30 @@ export const MODEL_PRICING: Record<string, { input: string; output: string }> = 
   [GATEWAY_MODELS.QWEN_3_235B]: { input: '0.07', output: '0.46' },
 };
 
+/**
+ * A developer's own LLM endpoint, seeded from `.env.local` (that file names the
+ * variables). Development builds only: a release build inlines `NODE_ENV` as
+ * `production`, so the branch is dropped from the bundle and no key can end up
+ * in a shipped client. Without it, or with nothing in the environment, this is
+ * empty and the defaults below stand.
+ */
+const envAIProvider = (): Partial<AISettings> => {
+  if (process.env.NODE_ENV !== 'development') return {};
+  const apiKey = process.env['NEXT_PUBLIC_AI_API_KEY'];
+  if (!apiKey) return {};
+  const baseUrl = process.env['NEXT_PUBLIC_AI_BASE_URL'];
+  const model = process.env['NEXT_PUBLIC_AI_MODEL'];
+  const embeddingModel = process.env['NEXT_PUBLIC_AI_EMBEDDING_MODEL'];
+  return {
+    enabled: true,
+    provider: 'openrouter',
+    openrouterApiKey: apiKey,
+    ...(baseUrl && { openrouterBaseUrl: baseUrl }),
+    ...(model && { openrouterModel: model }),
+    ...(embeddingModel && { openrouterEmbeddingModel: embeddingModel }),
+  };
+};
+
 export const DEFAULT_AI_SETTINGS: AISettings = {
   enabled: false,
   provider: 'ollama',
@@ -33,6 +57,9 @@ export const DEFAULT_AI_SETTINGS: AISettings = {
   openrouterBaseUrl: 'https://openrouter.ai/api/v1',
   openrouterModel: '',
   openrouterEmbeddingModel: '',
+
+  // Last, so an endpoint in the build's environment replaces these.
+  ...envAIProvider(),
 
   spoilerProtection: true,
   maxContextChunks: 10,

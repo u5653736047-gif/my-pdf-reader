@@ -36,7 +36,11 @@ vi.mock('@/types/view', () => ({
   wrappedFoliateView: (view: HTMLElement) =>
     Object.assign(view, { open: () => new Promise(() => {}) }),
 }));
-vi.mock('@/services/constants', () => ({ BOOK_IDS_SEPARATOR: ',' }));
+vi.mock('@/services/constants', () => ({
+  BOOK_IDS_SEPARATOR: ',',
+  READEST_WEB_BASE_URL: 'https://web.readest.com',
+  READEST_NODE_BASE_URL: 'https://node.readest.com',
+}));
 vi.mock('@/services/transformService', () => ({}));
 vi.mock('@/app/reader/utils/wordlensSection', () => ({}));
 vi.mock('@/app/reader/hooks/useFoliateEvents', () => ({ useFoliateEvents: vi.fn() }));
@@ -62,6 +66,7 @@ vi.mock('@/app/reader/hooks/useProgressAutoSave', () => ({ useProgressAutoSave: 
 vi.mock('@/app/reader/hooks/useAutoSaveBookCover', () => ({ useBookCoverAutoSave: () => {} }));
 vi.mock('@/app/reader/hooks/useFileSync', () => ({ useFileSync: () => {} }));
 vi.mock('@/app/reader/hooks/useTextTranslation', () => ({ useTextTranslation: () => {} }));
+vi.mock('@/app/reader/hooks/usePdfTranslation', () => ({ usePdfTranslation: () => {} }));
 vi.mock('@/hooks/useBackgroundTexture', () => ({
   useBackgroundTexture: () => ({ applyBackgroundTexture: vi.fn() }),
 }));
