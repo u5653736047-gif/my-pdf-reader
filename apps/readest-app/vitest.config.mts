@@ -26,6 +26,13 @@ export default defineConfig({
     environment: 'jsdom',
     silent: 'passed-only',
     setupFiles: ['./vitest.setup.ts'],
+    // The default 5s is too tight for this suite: several tests re-import a
+    // whole module graph per case (vi.resetModules() + a dynamic import of
+    // nativeAppService), and the import phase alone runs into minutes. Under
+    // CPU contention those tests legitimately need longer, and failing them on
+    // time alone turns a green run red for no cause. `test:pr:web:unit` caps
+    // workers for the same reason; a real hang still fails, just 20s later.
+    testTimeout: 20_000,
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
