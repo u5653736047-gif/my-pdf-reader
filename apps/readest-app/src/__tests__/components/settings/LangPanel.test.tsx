@@ -1,11 +1,14 @@
 /**
  * LangPanel — "Enable Translation" availability gate (issue #5600).
  *
- * Translation is not available for PDFs, and the reader's toolbar toggler has
- * always refused to turn it on for them. Settings → Language offered the same
- * switch with no gate, so turning it on there translated the PDF text layer
- * paragraph by paragraph and burned the daily AI translation quota — after
- * which every selection popped a "Daily translation quota reached" toast.
+ * Translation is off for books already in the target language, and the reader's
+ * toolbar toggler has always refused those. Settings → Language offered the same
+ * switch with no gate, so turning it on there for such a book translated the PDF
+ * text layer paragraph by paragraph and burned the daily AI translation quota —
+ * after which every selection popped a "Daily translation quota reached" toast.
+ *
+ * A PDF is translatable (its translation is painted over the source paragraph),
+ * including one whose file claims no language at all.
  *
  * The switch must follow the toolbar's rule: off + unavailable => locked, but
  * an already-on book stays toggleable so the user can turn it back off.
@@ -107,13 +110,31 @@ describe('LangPanel — Enable Translation availability', () => {
     expect(screen.queryByText('Not available for this book.')).toBeNull();
   });
 
-  it('locks the switch for a PDF, where translation is not available', () => {
+  it('leaves the switch live for a PDF, which is translated in place', () => {
     state.format = 'PDF';
 
     render(<LangPanel bookKey='book-1' onRegisterReset={vi.fn()} />);
 
+    expect(getEnableTranslationToggle().disabled).toBe(false);
+    expect(screen.queryByText('Not available for this book.')).toBeNull();
+  });
+
+  it('leaves the switch live for a PDF whose file claims no language', () => {
+    state.format = 'PDF';
+    state.primaryLanguage = '';
+
+    render(<LangPanel bookKey='book-1' onRegisterReset={vi.fn()} />);
+
+    expect(getEnableTranslationToggle().disabled).toBe(false);
+  });
+
+  it('locks the switch for a PDF already in the target language', () => {
+    state.format = 'PDF';
+    state.primaryLanguage = 'en';
+
+    render(<LangPanel bookKey='book-1' onRegisterReset={vi.fn()} />);
+
     expect(getEnableTranslationToggle().disabled).toBe(true);
-    expect(screen.getByText('Not available for this book.')).toBeTruthy();
   });
 
   it('locks the switch when the book is already in the target language', () => {

@@ -487,7 +487,9 @@ export function useTextTranslation(
   );
 
   useEffect(() => {
-    if (enabled.current && progress) {
+    // Nothing to read ahead from when the document has no paragraphs to
+    // translate, which is the case for a PDF (see usePdfTranslation).
+    if (enabled.current && progress && allTextNodes.current.length > 0) {
       const { range } = progress;
       translateInRange(range);
     }

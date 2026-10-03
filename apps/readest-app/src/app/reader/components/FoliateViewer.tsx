@@ -81,6 +81,7 @@ import { transformContent } from '@/services/transformService';
 import { sanitizeSvg } from '@/services/transformers/sanitizer';
 import { lockScreenOrientation, setSelectionSuppressed } from '@/utils/bridge';
 import { useTextTranslation } from '../hooks/useTextTranslation';
+import { usePdfTranslation } from '../hooks/usePdfTranslation';
 import { useBookCoverAutoSave } from '../hooks/useAutoSaveBookCover';
 import { useDiscordPresence } from '@/hooks/useDiscordPresence';
 import { manageSyntaxHighlighting } from '@/utils/highlightjs';
@@ -205,6 +206,9 @@ const FoliateViewer: React.FC<{
   const bookOrbitSync = useKOSync(bookKey, bookOrbitProgressProvider);
   useFileSync(bookKey);
   useTextTranslation(bookKey, viewRef.current);
+  // A PDF page cannot carry an appended wrapper, so its translation lives in
+  // its own frame instead (see usePdfTranslation).
+  usePdfTranslation(bookKey, viewRef.current);
 
   // Coalesce setProgress writes within a single animation frame.
   //

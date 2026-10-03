@@ -1,5 +1,6 @@
 import { BookFormat } from '@/types/book';
 import { Collection, Contributor, Identifier, LanguageMap } from '@/utils/book';
+import type { PdfPageBox, PdfTextItem } from '@/services/translation/pdfLayout';
 import { configureZip } from '@/utils/zip';
 import { getOSPlatform } from '@/utils/misc';
 import { installPDFImageShrink } from '@/libs/pdfImageShrink';
@@ -131,13 +132,16 @@ export interface BookDoc {
   // Present on PDF: renders a page to a JPEG whose longer edge is `maxSize` px.
   getPageThumbnail?(index: number, maxSize: number): Promise<Blob | null>;
   // Present on PDF: the pdf.js document behind it, whose annotation storage
-  // holds the highlights written back into the file.
+  // holds the highlights written back into the file and whose text content
+  // gives the page's paragraphs for translation.
   getPDF?(): {
     getPage(index: number): Promise<{
       getViewport(params: { scale: number }): {
         width: number;
         convertToPdfPoint(x: number, y: number): [number, number];
+        rawDims: PdfPageBox;
       };
+      getTextContent(): Promise<{ items: PdfTextItem[] }>;
     }>;
     annotationStorage: { setValue(key: string, value: unknown): void };
     saveDocument(): Promise<Uint8Array>;

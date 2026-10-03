@@ -66,11 +66,12 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const [showCustomDictionaries, setShowCustomDictionaries] = useState(false);
   const [showWordLens, setShowWordLens] = useState(false);
 
-  // Translation is unavailable for PDFs and for books already in the target
-  // language (issue #5600). The reader toolbar's toggler has always refused
-  // those; ungated here, turning it on for a PDF translated the text layer
-  // paragraph by paragraph and drained the daily AI translation quota. An
-  // already-on book keeps the switch live so it can be turned back off.
+  // Translation is off for books already in the target language (issue #5600).
+  // A PDF with no language in its metadata still counts as translatable, since
+  // its text is what it is; the translator answers with the source unchanged if
+  // the guess was wrong. The reader toolbar's toggler has always refused the
+  // same set. An already-on book keeps the switch live so it can be turned back
+  // off.
   const translationAvailable = isTranslationAvailable(
     getBookData(bookKey)?.book,
     translateTargetLang,
@@ -359,11 +360,15 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           onChange={() => setTranslationEnabled(!translationEnabled)}
           disabled={!bookKey || (!translationAvailable && !translationEnabled)}
         />
-        <SettingsSwitchRow
-          label={_('Show Source Text')}
-          checked={showTranslateSource}
-          onChange={() => setShowTranslateSource(!showTranslateSource)}
-        />
+        {/* A PDF's translation is painted over the source paragraph, so there is
+            no source text to keep beside it. */}
+        {getBookData(bookKey)?.book?.format !== 'PDF' && (
+          <SettingsSwitchRow
+            label={_('Show Source Text')}
+            checked={showTranslateSource}
+            onChange={() => setShowTranslateSource(!showTranslateSource)}
+          />
+        )}
         <SettingsRow label={_('TTS Text')} data-setting-id='settings.language.ttsTextTranslation'>
           <SettingsSelect
             value={ttsReadAloudText}

@@ -75,13 +75,18 @@ export const getDailyUsage = (date?: string): number | null => {
 };
 
 export const isTranslationAvailable = (book?: Book | null, targetLanguage?: string | null) => {
-  if (!book || book.format === 'PDF') {
+  if (!book) {
     return false;
   }
 
   const primaryLanguage = book.primaryLanguage || '';
-  if (!primaryLanguage || primaryLanguage.toLowerCase() === 'und') {
-    return false;
+  const undetermined = !primaryLanguage || primaryLanguage.toLowerCase() === 'und';
+  // A PDF's language is optional metadata and is frequently absent, while its
+  // text is translatable whatever the file claims, so an unknown language does
+  // not rule a PDF out. If the guess was wrong the translator answers with the
+  // source text unchanged, and nothing is painted.
+  if (undetermined) {
+    return book.format === 'PDF';
   }
 
   if (targetLanguage && isSameLang(primaryLanguage, targetLanguage)) {
