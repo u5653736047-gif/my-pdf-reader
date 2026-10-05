@@ -6,11 +6,14 @@
 # `<base>-<YYYYMMDDHH>` (Asia/Shanghai), (2) publishes to Cloudflare R2 only (no
 # GitHub release), and (3) assembles `nightly/latest.json` race-free from
 # per-leg manifest fragments so a single failing leg never clobbers the manifest.
+#
+# On demand only. A scheduled nightly needs the Apple signing certificates, the
+# Android keystore and a Cloudflare R2 bucket, none of which this fork has, so
+# every leg could only fail — and the failed runs arrive as email. Re-add the
+# cron under `on:` once the release secrets do.
 name: Nightly Readest
 
 on:
-  schedule:
-    - cron: '0 22 * * *' # 22:00 UTC = 06:00 GMT+8
   workflow_dispatch:
 
 permissions:
@@ -30,7 +33,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: main
           persist-credentials: false
       - id: v
         run: |
@@ -87,7 +89,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: main
           persist-credentials: false
 
       - name: initialize git submodules
@@ -523,7 +524,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: main
           persist-credentials: false
 
       - name: Build LocalSend helper binaries for KOReader (static musl armv7 + arm64)
