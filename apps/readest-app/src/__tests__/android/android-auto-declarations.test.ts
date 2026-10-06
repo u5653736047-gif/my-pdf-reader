@@ -329,23 +329,34 @@ describeIf('Android Auto declarations (#3919)', () => {
 });
 
 /**
- * The app's gradle script lives under gitignored `src-tauri/gen`, and every
- * Android build regenerates that directory with `tauri android init` and then
- * restores the tracked files over the generated ones. It therefore only reaches
- * CI because it is tracked explicitly. This fork lost it exactly that way — the
- * import's `git add .` honored the ignore rule — and with it the
- * `missingDimensionStrategy("store", …)` that resolves the foss/googleplay
- * flavors the local plugins declare, so every Android build failed with a
- * variant ambiguity. No assertion about the file's contents can catch that; only
- * its tracked-ness can.
+ * `src-tauri/gen` is gitignored, and every build regenerates it from
+ * `tauri android init` / `tauri ios init` before restoring the tracked files
+ * over the generated ones. So the files these suites read only reach CI because
+ * they are tracked explicitly — upstream force-adds all thirty-one of them.
+ * This fork's import used `git add .`, which honors the ignore rule and dropped
+ * them all, and that is how `gen/android/app/build.gradle.kts` went missing and
+ * broke every Android build with a Gradle variant ambiguity. A fresh checkout
+ * has no `gen/` at all, so an untracked file fails in CI and never locally.
+ *
+ * No assertion about a file's contents can catch it being dropped; only its
+ * tracked-ness can.
  */
-describe('the app gradle script survives regeneration', () => {
-  it('is tracked despite living under gitignored src-tauri/gen', () => {
-    const path = 'apps/readest-app/src-tauri/gen/android/app/build.gradle.kts';
-    const tracked = execFileSync('git', ['ls-files', '--error-unmatch', path], {
-      cwd: resolve(process.cwd(), '../..'),
+describe('the generated files these suites read are tracked', () => {
+  const GENERATED = [
+    'android/app/build.gradle.kts',
+    'android/app/src/main/AndroidManifest.xml',
+    'android/app/src/main/res/xml/automotive_app_desc.xml',
+    'android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml',
+    'apple/project.yml',
+  ];
+  const repoRoot = resolve(process.cwd(), '../..');
+  const trackedInGit = (rel: string) =>
+    execFileSync('git', ['ls-files', '--error-unmatch', `apps/readest-app/src-tauri/gen/${rel}`], {
+      cwd: repoRoot,
       encoding: 'utf-8',
-    });
-    expect(tracked.trim()).toBe(path);
+    }).trim();
+
+  it.each(GENERATED)('%s is tracked despite living under gitignored src-tauri/gen', (rel) => {
+    expect(trackedInGit(rel)).toBe(`apps/readest-app/src-tauri/gen/${rel}`);
   });
 });
