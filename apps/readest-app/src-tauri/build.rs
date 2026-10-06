@@ -203,7 +203,9 @@ fn build_windows_thumbnail() {
     // part of this repository. Build without Explorer thumbnails rather than
     // fail; nsis/installer-hooks.nsh skips the matching registration.
     if !dll_crate_manifest.exists() {
-        println!("cargo:warning=extensions/windows-thumbnail is missing, skipping thumbnail provider");
+        println!(
+            "cargo:warning=extensions/windows-thumbnail is missing, skipping thumbnail provider"
+        );
         return;
     }
 
