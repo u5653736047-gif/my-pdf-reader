@@ -2,13 +2,17 @@ name: Android E2E (CDP)
 
 # On-device end-to-end tests: boots an x86_64 Android emulator (KVM), installs
 # a debug APK, and runs the CDP-driven selection lane (pnpm test:android).
-# Not PR-blocking: runs nightly, on demand, or when a PR is labeled
-# `e2e-android`.
+# Not PR-blocking: runs on demand, or when a PR is labeled `e2e-android`.
+#
+# On demand only. The APK build was fixed (see the tracked gen/android tree), and
+# the lane now gets as far as launching the app — but the app never comes up on
+# the emulator, so every test times out waiting for the reader page. That has
+# never worked on this fork and needs logcat to diagnose, so a scheduled run
+# could only produce a daily failure email. Re-add the cron once the lane is
+# green.
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 19 * * *'
   pull_request:
     types: [labeled, synchronize]
 
@@ -133,3 +137,15 @@ jobs:
           script: |
             adb install -r "$APK"
             cd apps/readest-app && pnpm test:android
+
+      # The lane fails by timing out on `adb shell pidof com.bilingify.readest`:
+      # the app is installed but its process never appears. Nothing in the job
+      # log says why, and logcat is gone with the runner, so the one run that
+      # found this could not be diagnosed. Capture the app's own crash output
+      # while the emulator is still up.
+      - name: dump logcat when the lane fails
+        if: ${{ failure() }}
+        run: |
+          adb logcat -d -v time \
+            | grep -iE 'readest|AndroidRuntime|FATAL|ANR |beginning of crash' \
+            | tail -200 || echo "(logcat unavailable)"
